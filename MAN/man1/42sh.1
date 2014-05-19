@@ -1,0 +1,140 @@
+.Dd $Mdocdate$
+.Dt 42SH 1
+.Sh NAME
+.Nm 42sh
+.Nd C shell based on CSH
+.Sh SYNOPSIS
+.Nm ./42sh
+.Sh DESCRIPTION
+
+.Nm 
+is an enhanced but completely compatible version of the Berkeley
+UNIX C shell, 
+.Pa csh(1).
+
+It is a command language interpreter usable as an interactive login shell.
+.Pp
+
+It includes a command-line editor (see \fBThe command-line editor\fR),
+a word completion (see \fBCompletion and listing\fR),
+a management of commands susbtitution (backquotes) (see \fBCommands susbtitution\fR),
+a management of local variables (see \fBLocal variables\fR),
+a history of command (see \fBHistory of command\fR),
+job control (see \fBJobs\fR)
+and a C-like syntax.
+.Pp
+.Sh THE COMMAND-LINE EDITOR
+.Nm
+commands are build to be easy to use:
+
+.It Fl p
+\fIdown\fR
+go forward in the command history if you're not on the active command.
+
+.It Fl p
+\fIup\fR
+go back in the command history to the previous commands typed.
+
+.It Fl p
+\fIleft\fR
+move backward one char in the command string.
+
+.It Fl p
+\fIright\fR
+move forward one char in the command string.
+
+.It Fl p
+\fIdelete\fR
+delete the char just after the cursor.
+
+.It Fl p
+\fIbackspace\fR
+delete the char just before the cursor.
+
+.It Fl p
+\fItab\fR
+try to make an autocompletion on the command you're typing.
+
+.It Fl p
+\fISHIFT+[left/right]\fR
+move one word in the command string you're typing.
+
+.It Fl p
+\fISHIFT+[up/down]\fR
+move one line in the command string you're typing.
+
+.It Fl p
+\fIhome/CRTL+A\fR
+go back to the beginning of the command you're typing.
+
+.It Fl p
+\fIend/CTRL+E\fR
+go to the end of the command you're typing.
+
+.Sh COMMAND SUBSTITUTION
+Text inside a backward quote will be interpreted as a command and executed inside a sub-shell before the active command. The result of the substitution command will not be seen and the only the result of the primary command will be prompted on the standard output.
+.Sh LOCAL VARIABLES
+The  shell maintains a list of variables, each of which has as value a list of zero or more words.  The values of shell variables can be displayed and changed with the \fIset\fR and \fIunset\fR 
+commands.   The  system  maintains its own list of ``environment'' variables.  These can be displayed and changed with \fIprintenv\fR, \fIsetenv\fR and \fIunsetenv\fR.
+
+.It Fl p
+\fI$?\fR                the exit status of the last command executed is
+                  given as a decimal string.  When a command
+                  completes successfully, it returns the exit status
+                  of 0 (zero), otherwise it returns a non-zero exit
+                  status.
+
+\fIexport/setenv\fR     create an environment variable containing the
+                  argument string.
+
+\fIunset/unsetenv\fR    delete the environment variable given as argument.
+.Sh ALIASES
+The  shell maintains a list of aliases which can be set, unset and printed by the alias and unalias commands.  After a command line is parsed into simple commands (see  Commands)  the first  word  of  each command, left-to-right, is checked to see if it has an alias.  If so, the first word is replaced by the alias.
+
+Thus  if  the  alias for `ls' were `ls -l' the command `ls /usr' would become `ls -l /usr', the argument list here being  undisturbed.   If  the  alias  for  `lookup'  were  `grep  !^ /etc/passwd'  then `lookup bill' would become `grep bill /etc/passwd'.
+
+.It Fl p
+\fIalias\fR             print all the active aliases
+
+\fIalias{argument}\fR   print the alias of the given argument
+
+\fIunalias\fR           remove the alias of the given argument, can remove
+                  all aliases with option -a.
+.Sh HISTORY OF COMMAND
+Each command, or ``event'', input from the terminal is saved in the history list. Saved commands are numbered sequentially from 1 and stamped with the time. It is not  usually necessary  to use event numbers, but the current event number can be made part of the prompt by placing an `!' in the prompt shell variable.
+
+The history command allows the user to watch over the last five commands used in the shell. It's possible to see more or less history by giving a number as argument of the command. The history is limited at the first 5000 commands used in the shell, past this number the behavior is undertermined.
+
+The following options are available:
+
+-c	Clear the whole history of all commands used in the shell.
+
+-t	Display the time of the commands can.
+
+n	When used with an integer value the history command shows as much as value commands, except if there isn't that much commands in the history.
+
+The `!' can be used to look for and lauch commands in the history. When used with a value the shell will check the n th commmand and launch it as if the user tiped it in the shell. If a char* is specified the first match of the used will be used and launched in he shell
+
+Examples:	!4, !ls
+
+.Sh FILES
+.Bl -tag -width includes/shell.h -compact
+.It Pa includes/shell.h
+.It Pa libft/libft.h
+.It Pa libft/*.c
+.It Pa src/*.c
+.It Pa MAN/*
+.Sh SEE ALSO
+.Xr csh 1 ,
+.Xr sh 1 ,
+.Sh STANDARDS
+The
+.Nm
+is able to troll his user. It can be launch only in 42's School.
+.Sh HISTORY
+The
+.Nm
+was created by gleger  , rda-cost, rda-cost, rda-cost and rda-cost in order to honor the Heart of Code.
+.Sh BUGS
+.Nm
+let cd beetween backquotes change the actual dir, instead of having the same behavior than the others shell.
